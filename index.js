@@ -84,16 +84,10 @@ client.on("messageCreate", async message => {
   if (message.author.bot) return;
 
   const content = message.content.trim().toLowerCase();
-
-  // !ping
-  if (content === "!ping") {
-    await message.reply("🏓 Pong !");
-    return;
   }
 
   // !ping arena
   if (content === "!ping arena") {
-    const channel = await client.channels.fetch(CHANNEL_ID);
     await channel.send(`${ROLE_ARENA} Beep Boop Arena reminder ! (test)`);
     return;
   }
@@ -114,4 +108,5 @@ client.on("messageCreate", async message => {
 
 
 client.login(TOKEN);
+
 
