@@ -28,14 +28,14 @@ client.once("ready", async () => {
     const today = new Date();
 
     if (!lastSentEvening) {
-      channel.send("@trap 1, 15 minutes before losing to trap 2, beep boop");
+      channel.send("@Trap 1, 15 minutes before losing to trap 2, beep boop");
       lastSentEvening = today;
       return;
     }
 
     const diff = (today - lastSentEvening) / (1000 * 60 * 60 * 24);
     if (diff >= 2) {
-      channel.send("@trap 1, 15 minutes before losing to trap 2, beep boop");
+      channel.send("@Trap 1, 15 minutes before losing to trap 2, beep boop");
       lastSentEvening = today;
     }
   });
@@ -51,14 +51,14 @@ client.once("ready", async () => {
 
     const diff = (today - lastSentMorning) / (1000 * 60 * 60 * 24);
     if (diff >= 2) {
-      channel.send("@trap 2, 15 minutes before hunt beep");
+      channel.send("@Trap 2, 15 minutes before hunt beep");
       lastSentMorning = today;
     }
   });
 
   // 3️⃣ Tous les jours à 0h30
   cron.schedule("30 0 * * *", () => {
-    channel.send("@everyone Beep Boop Arena reminder !");
+    channel.send("@Arena Beep Boop Arena reminder !");
   });
 });
 
@@ -76,3 +76,4 @@ client.on("messageCreate", message => {
 });
 
 client.login(TOKEN);
+
