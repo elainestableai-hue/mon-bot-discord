@@ -5,34 +5,34 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent // OBLIGATOIRE
+    GatewayIntentBits.MessageContent
   ]
 });
 
 const TOKEN = process.env.TOKEN;
-const CHANNEL_ID = process.env.CHANNEL_ID;;
+const CHANNEL_ID = process.env.CHANNEL_ID;
 
-// Stocke la date du dernier envoi pour les messages tous les deux jours
+// Stocke la date du dernier envoi
 let lastSentEvening = null;   // 20h15
 let lastSentMorning = null;   // 10h15
 
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log(`✅ Connecté en tant que ${client.user.tag}`);
 
-  const channel = client.channels.cache.get(CHANNEL_ID);
+  // Récupération FIABLE du salon
+  const channel = await client.channels.fetch(CHANNEL_ID);
+  console.log(`📨 Salon cible : ${channel.name}`);
 
-  // 1️⃣ Message tous les deux jours à 20h15, premier envoi aujourd'hui
+  // 1️⃣ Tous les 2 jours à 20h15 (premier envoi aujourd'hui)
   cron.schedule("15 20 * * *", () => {
     const today = new Date();
 
     if (!lastSentEvening) {
-      // Premier envoi aujourd'hui
       channel.send("@trap 1, 15 minutes before losing to trap 2, beep boop");
       lastSentEvening = today;
       return;
     }
 
-    // Vérifie si 2 jours se sont écoulés depuis le dernier envoi
     const diff = (today - lastSentEvening) / (1000 * 60 * 60 * 24);
     if (diff >= 2) {
       channel.send("@trap 1, 15 minutes before losing to trap 2, beep boop");
@@ -40,13 +40,12 @@ client.once("ready", () => {
     }
   });
 
-  // 2️⃣ Message tous les deux jours à 10h15, premier envoi demain
+  // 2️⃣ Tous les 2 jours à 10h15 (premier envoi demain)
   cron.schedule("15 10 * * *", () => {
     const today = new Date();
 
     if (!lastSentMorning) {
-      // Décale le premier envoi à demain
-      lastSentMorning = new Date(today.getTime() - 24*60*60*1000);
+      lastSentMorning = new Date(today.getTime() - 24 * 60 * 60 * 1000);
       return;
     }
 
@@ -57,23 +56,19 @@ client.once("ready", () => {
     }
   });
 
-  // 3️⃣ Message quotidien à 0h30
+  // 3️⃣ Tous les jours à 0h30
   cron.schedule("30 0 * * *", () => {
     channel.send("@everyone Beep Boop Arena reminder !");
   });
 });
 
-// Commandes simples
+// Commandes
 client.on("messageCreate", message => {
   if (message.author.bot) return;
 
   if (message.content === "!Elainaé") {
-    message.reply("My mistress is the best woman i know, i love her ");
+    message.reply("My mistress is the best woman i know, i love her");
   }
-});
-
-client.on("messageCreate", message => {
-  if (message.author.bot) return;
 
   if (message.content === "!GK") {
     message.reply("Everyone knee down to our queen, GoKart");
