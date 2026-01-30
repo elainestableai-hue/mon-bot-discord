@@ -87,10 +87,6 @@ client.on("messageCreate", message => {
     message.reply("My mistress is the best woman i know, i love her");
   }
 
-  if (message.content === "!trap") {
-    message.reply(`${ROLE_ARENA} Beep Boop Arena reminder !");
-  }
-
   if (message.content === "!GK") {
     message.reply("Everyone knee down to our queen, GoKart");
   }
