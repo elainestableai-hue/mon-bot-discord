@@ -17,18 +17,17 @@ const ROLE_TRAP_1 = "<@&1462315632019247156>";
 const ROLE_TRAP_2 = "<@&1462315838093791423>";
 const ROLE_ARENA = "<@&1466790142927962238>";
 
-// Stocke la date du dernier envoi
-let lastSentEvening = null;   // 20h15
-let lastSentMorning = null;   // 10h15
+// Dates d'envoi
+let lastSentEvening = null;
+let lastSentMorning = null;
 
 client.once("ready", async () => {
   console.log(`✅ Connecté en tant que ${client.user.tag}`);
 
-  // Récupération fiable du salon
   const channel = await client.channels.fetch(CHANNEL_ID);
   console.log(`📨 Salon cible : ${channel.name}`);
 
-  // 1️⃣ Tous les 2 jours à 20h15 (Trap 1) — premier envoi aujourd'hui
+  // Trap 1 — 20h15 tous les 2 jours
   cron.schedule(
     "15 20 * * *",
     () => {
@@ -49,7 +48,7 @@ client.once("ready", async () => {
     { timezone: "Europe/Paris" }
   );
 
-  // 2️⃣ Tous les 2 jours à 10h15 (Trap 2) — premier envoi demain
+  // Trap 2 — 10h15 tous les 2 jours
   cron.schedule(
     "15 10 * * *",
     () => {
@@ -69,7 +68,7 @@ client.once("ready", async () => {
     { timezone: "Europe/Paris" }
   );
 
-  // 3️⃣ Tous les jours à 0h30 (Arena)
+  // Arena — tous les jours à 0h30
   cron.schedule(
     "30 0 * * *",
     () => {
@@ -79,16 +78,31 @@ client.once("ready", async () => {
   );
 });
 
-// Commandes
-client.on("messageCreate", message => {
+// COMMANDES
+client.on("messageCreate", async message => {
   if (message.author.bot) return;
 
-  if (message.content === "!Elainaé") {
-    message.reply("My mistress is the best woman i know, i love her");
+  const content = message.content.trim().toLowerCase();
+
+  if (content === "!ping") {
+    await message.reply("🏓 Pong !");
+    return;
   }
 
-  if (message.content === "!GK") {
-    message.reply("Everyone knee down to our queen, GoKart");
+  if (content === "!ping arena") {
+    const channel = await client.channels.fetch(CHANNEL_ID);
+    await channel.send(`${ROLE_ARENA} Beep Boop Arena reminder ! (test)`);
+    return;
+  }
+
+  if (content === "!elainae") {
+    await message.reply("My mistress is the best woman I know, I love her");
+    return;
+  }
+
+  if (content === "!gk") {
+    await message.reply("Everyone kneel down to our queen, GoKart");
+    return;
   }
 });
 
