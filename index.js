@@ -80,33 +80,20 @@ client.once("ready", async () => {
 });
 
 // Commandes
-client.on("messageCreate", async message => {
+client.on("messageCreate", message => {
   if (message.author.bot) return;
 
-  const content = message.content.trim().toLowerCase();
+  if (message.content === "!Elainaé") {
+    message.reply("My mistress is the best woman i know, i love her");
   }
 
-  // !ping arena
-  if (content === "!ping arena") {
-    await channel.send(`${ROLE_ARENA} Beep Boop Arena reminder ! (test)`);
-    return;
+  if (message.content === "!trap") {
+    message.reply(`${ROLE_ARENA} Beep Boop Arena reminder !");
   }
 
-  // !elainae
-  if (content === "!elainae") {
-    await message.reply("My mistress is the best woman I know, I love her");
-    return;
-  }
-
-  // !gk
-  if (content === "!gk") {
-    await message.reply("Everyone kneel down to our queen, GoKart");
-    return;
+  if (message.content === "!GK") {
+    message.reply("Everyone knee down to our queen, GoKart");
   }
 });
 
-
-
 client.login(TOKEN);
-
-
