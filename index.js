@@ -90,5 +90,8 @@ client.on("messageCreate", async message => {
     return;
   }
 });
+
+
 client.login(TOKEN);
+
 
