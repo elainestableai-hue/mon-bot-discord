@@ -83,9 +83,8 @@ client.on("messageCreate", async message => {
     await message.reply("Everyone kneel down to our queen, GoKart");
     return;
   }
-});
 
- if (content === "!beer") {
+   if (content === "!beer") {
     await message.reply("Take a FST beer my dear friend !");
     return;
   }
@@ -93,5 +92,6 @@ client.on("messageCreate", async message => {
 
 
 client.login(TOKEN);
+
 
 
