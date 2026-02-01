@@ -28,45 +28,24 @@ client.once("ready", async () => {
   console.log(`📨 Salon cible : ${channel.name}`);
 
   // Trap 1 — 20h15 tous les 2 jours
-  cron.schedule(
-    "15 20 * * *",
-    () => {
-      const today = new Date();
+cron.schedule(
+  "15 20 1-31/2 * *",
+  () => {
+    channel.send(`${ROLE_TRAP_1} 15 minutes before losing to trap 2, beep boop`);
+  },
+  { timezone: "Europe/Paris" }
+);
 
-      if (!lastSentEvening) {
-        channel.send(`${ROLE_TRAP_1} 15 minutes before losing to trap 2, beep boop`);
-        lastSentEvening = today;
-        return;
-      }
-
-      const diff = (today - lastSentEvening) / (1000 * 60 * 60 * 24);
-      if (diff >= 2) {
-        channel.send(`${ROLE_TRAP_1} 15 minutes before losing to trap 2, beep boop`);
-        lastSentEvening = today;
-      }
-    },
-    { timezone: "Europe/Paris" }
-  );
 
   // Trap 2 — 10h15 tous les 2 jours
-  cron.schedule(
-    "15 10 * * *",
-    () => {
-      const today = new Date();
+cron.schedule(
+  "15 10 2-30/2 * *",
+  () => {
+    channel.send(`${ROLE_TRAP_2} 15 minutes before bear hunt to beat trap 1, beep boop`);
+  },
+  { timezone: "Europe/Paris" }
+);
 
-      if (!lastSentMorning) {
-        lastSentMorning = new Date(today.getTime() - 24 * 60 * 60 * 1000);
-        return;
-      }
-
-      const diff = (today - lastSentMorning) / (1000 * 60 * 60 * 24);
-      if (diff >= 2) {
-        channel.send(`${ROLE_TRAP_2} 15 minutes before hunt beep`);
-        lastSentMorning = today;
-      }
-    },
-    { timezone: "Europe/Paris" }
-  );
 
   // Arena — tous les jours à 0h30
   cron.schedule(
@@ -106,4 +85,10 @@ client.on("messageCreate", async message => {
   }
 });
 
+ if (content === "!beer") {
+    await message.reply("Take a FST beer my dear friend !");
+    return;
+  }
+});
 client.login(TOKEN);
+
