@@ -55,6 +55,15 @@ cron.schedule(
     },
     { timezone: "Europe/Paris" }
   );
+
+
+   cron.schedule(
+    "0 21 * * *",
+    () => {
+      channel.send(`${ROLE_ARENA} Beep Boop Arena reminder ! 4hours before reset, if you go to sleep`);
+    },
+    { timezone: "Europe/Paris" }
+  );
 });
 
 // COMMANDES
